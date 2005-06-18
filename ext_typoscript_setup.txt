@@ -1,0 +1,95 @@
+
+
+plugin.tx_mocfilemanager_pi2 {
+  ShowFilesPID = {$plugin.tx_mocfilemanager_pi2.ShowFilesPID}
+  mountsPID.field = pages
+  limitNewest = {$plugin.tx_mocfilemanager_pi2.limitNewest}
+  documentRoot = {$plugin.tx_mocfilemanager_pi1.documentRoot} 
+  useOwnIcons = {$plugin.tx_mocfilemanager_pi1.useOwnIcons}			
+}
+plugin.tx_mocfilemanager_pi1.recursive.field = recursive
+plugin.tx_mocfilemanager_pi1._CSS_DEFAULT_STYLE (
+ DIV.tx-mocfilemanager-pi1 TABLE.mounttable TD { padding: 0px;}
+ DIV.tx-mocfilemanager-pi1 TABLE#contenttable TD { padding: 0px;}
+ DIV.tx-mocfilemanager-pi1 .filelink { font-family: Verdana; font-size: 12px; color: #000033; text-decoration: none;}
+ DIV.tx-mocfilemanager-pi1 TABLE#contenttable TD.borderbottom { padding: 0px;border-bottom: 1px solid black;}
+ DIV.tx-mocfilemanager-pi1 .filelink:hover {text-decoration: underline;} 
+ DIV.tx-mocfilemanager-pi1 .filelinkactive { font-family: Verdana; font-size: 12px; font-weight: bold; color: #000033; text-decoration: none;} 
+ DIV.tx-mocfilemanager-pi1 { font-family: Verdana; font-size: 22px; color: #000033;}
+ DIV.tx-mocfilemanager-pi1 .filelinkactive { font-family: Verdana; font-size: 12px; font-weight: bold; color: #000033; text-decoration: none;} 
+ DIV.tx-mocfilemanager-pi1 .filelinkactive:hover{ text-decoration: underline;}
+ DIV.tx-mocfilemanager-pi1 .action {font-family: Verdana, Arial, Helvetica; font-size: 7pt;color: #333333;border:#666666 solid 1pkt;background-color: #ffffff;}
+ DIV.tx-mocfilemanager-pi1 .actionButton {font-family: Verdana, Arial, Helvetica;font-size: 7pt;color: #333333;border:#666666 solid 1pkt;background-color: #ffffff;}
+ DIV.tx-mocfilemanager-pi1 .command {font-family: Verdana; font-size: 12px; color: #000033; font-weight: bold;}
+ DIV.tx-mocfilemanager-pi1 .info {font-family: Verdana; font-size: 10px; color: #000033; font-weight: normal;}
+ DIV.tx-mocfilemanager-pi1 .dirpath {font-family: Verdana; font-size: 12px; color: #000033; font-weight: bold;}
+ DIV.tx-mocfilemanager-pi1 P { font-family: Verdana; font-size: 12px; color: #000033; text-decoration: none;} 
+ DIV.tx-mocfilemanager-pi1 TABLE.MainInfoTable { border: 1px solid #000033; background-color: yellow; padding: 5px;}
+)
+
+
+plugin.tx_mocfilemanager_pi2._CSS_DEFAULT_STYLE (
+ .tx-mocfilemanager-pi2 .filelink { font-family: Verdana; font-size: 12px; color: #000033; text-decoration: none;} 
+ .tx-mocfilemanager-pi2 .filelink:hover {text-decoration: underline;} 
+ .tx-mocfilemanager-pi2 .info {font-family: Verdana; font-size: 10px; color: #000033; font-weight: normal;}
+)
+
+#plugin.tx_mocfilemanager_pi1.mountwrap = <span> | </span>
+
+plugin.tx_mocfilemanager_pi1 {
+  ShowFiles {
+   ATagParams = class="filelink"
+  }
+  parseFunc < tt_content.text.20.parseFunc
+  mountStoragePID.field = pages
+  //CODE.field = select_key
+  CODE.field = field_mode
+  selectFrom.field = field_selectfrom
+  from.field = field_from
+  filesStoragePID.field = pages
+      
+}
+plugin.tx_mocfilemanager_pi1.killChild = {$plugin.tx_mocfilemanager_pi1.ApacheChildKill} 
+plugin.tx_mocfilemanager_pi1.timeLimit = {$plugin.tx_mocfilemanager_pi1.timeLimit} 
+plugin.tx_mocfilemanager_pi1.documentRoot = {$plugin.tx_mocfilemanager_pi1.documentRoot} 
+plugin.tx_mocfilemanager_pi1.allowedExts = {$plugin.tx_mocfilemanager_pi1.allowedExts}
+plugin.tx_mocfilemanager_pi1.maxDepth = {$plugin.tx_mocfilemanager_pi1.maxDepth}
+plugin.tx_mocfilemanager_pi1.showDesc = {$plugin.tx_mocfilemanager_pi1.showDesc}
+plugin.tx_mocfilemanager_pi1.asExplorer = {$plugin.tx_mocfilemanager_pi1.asExplorer}
+plugin.tx_mocfilemanager_pi1.useDescriptions = {$plugin.tx_mocfilemanager_pi1.useDescriptions}
+plugin.tx_mocfilemanager_pi1.mountwrap = {$plugin.tx_mocfilemanager_pi1.mountWrap}
+plugin.tx_mocfilemanager_pi1.showParentDir = {$plugin.tx_mocfilemanager_pi1.showParentDir}
+plugin.tx_mocfilemanager_pi1.parentDirStyle = {$plugin.tx_mocfilemanager_pi1.parentDirStyle}
+plugin.tx_mocfilemanager_pi1.disableMkdir = {$plugin.tx_mocfilemanager_pi1.disableMkdir}
+
+plugin.tx_mocfilemanager_pi1 {
+	useOwnIcons = {$plugin.tx_mocfilemanager_pi1.useOwnIcons}
+	datetimeFormat = {$plugin.tx_mocfilemanager_pi1.datetimeFormat}
+}
+
+plugin.tx_mocfilemanager_pi1.levels{
+  level0 {
+     ATagParams = class='filelink'
+     wrap = |<br>
+     ACT {
+      wrap = |<br>
+      ATagParams = class='filelinkactive'
+    }
+  }
+  level1 < .level0
+  level1.wrap = &nbsp;|<br>
+  level1.ACT.wrap = &nbsp;|<br>
+
+  level2 < .level0
+  level2.wrap = &nbsp;&nbsp;|<br>
+  level2.ACT.wrap = &nbsp;&nbsp;|<br>
+
+  level3 < .level0
+  level3.wrap = &nbsp;&nbsp;&nbsp;|<br>
+  level3.ACT.wrap = &nbsp;&nbsp;&nbsp;|<br>
+
+  level4 < .level0
+  level4.wrap = &nbsp;&nbsp;&nbsp;&nbsp;|<br>
+  level4.ACT.wrap = &nbsp;&nbsp;&nbsp;&nbsp;|<br>
+}
+#Default setup

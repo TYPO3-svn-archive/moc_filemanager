@@ -1,0 +1,124 @@
+<?php
+/***************************************************************
+*  Copyright notice
+*  
+*  (c) 2003 Jan-Erik Revsbech (jer@moccompany.com)
+*  All rights reserved
+*
+*  This script is part of the Typo3 project. The Typo3 project is 
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+* 
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+* 
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+/** 
+ * Plugin 'Directory menu' for the 'moc_filemanager' extension.
+ *
+ * @author	Jan-Erik Revsbech <jer@moccompany.com>
+ */
+
+
+require_once(PATH_tslib."class.tslib_pibase.php");
+
+class tx_mocfilemanager_pi2 extends tslib_pibase {
+	var $prefixId = "tx_mocfilemanager_pi2";		// Same as class name
+	var $scriptRelPath = "pi2/class.tx_mocfilemanager_pi2.php";	// Path to this script relative to the extension dir.
+	var $extKey = "moc_filemanager";	// The extension key.
+	
+	/**
+	 * [Put your description here]
+	 */
+	function main($content,$conf)	{
+	  $this->conf=$conf;
+	  $this->pi_setPiVarDefaults();
+	  $this->pi_loadLL();
+
+	  $this->dbObj = $GLOBALS['TYPO3_DB'];
+	  $this->showPage = ($this->conf["showFilesPID"]) ? $this->cObj->stdWrap($this->conf["showFilesPID"],$this->conf["ShowFilesPID."]) : $GLOBALS["TSFE"]->id;	 
+	  $this->userGroups = 	$GLOBALS["TSFE"]->fe_user->user["usergroup"]; 	  	  
+	  if(!($this->userGroups)) {
+	    return "<p class='error'>".$this->pi_getLL("notloggedin")."</p>\n";
+	  }	 
+	  $this->mountsPID = $this->cObj->stdWrap($this->conf["mountsPID"],$this->conf["mountsPID."]);
+	  if(!($this->mountsPID)) {
+	    $this->mountsPID = $GLOBALS["TSFE"]->id;
+	  }
+	  $this->mountsPID = $this->pi_getPidList($this->mountsPID,250);
+	  $icons = array("doc"=>"doc.gif",
+			 "xls"=>"xls.gif",
+			 "html"=>"html1.gif",
+			 "txt"=>"txt.gif",
+			 "gz" => "zip.gif",
+			 "zip" => "zip.gif",
+			 "tar" => "zip.gif",
+			 "jpg" => "jpg.gif",
+			 "gif" => "gif.gif",
+			 "bmp" => "bmp.gif",
+			 "pdf" => "pdf.gif",
+			 "png" => "png.gif",
+			 "php" => "php3.gif",
+			 "php3" => "php3.gif");
+	  
+	  $usergroups = explode(",",$this->userGroups);
+	  $count = 0;
+	  $whereClause = "(";
+	  foreach ($usergroups as $ug) {
+	    if($count != 0) 
+	      $whereClause .= " OR ";
+	    $count++;
+	    $whereClause .= "FIND_IN_SET('".intval($ug)."',m.mountperm)"; 
+	  }
+	  $whereClause .= ")";
+
+	  $res = $this->dbObj->exec_SELECTquery('f.uid,type,file,(UNIX_TIMESTAMP(NOW())-f.uploaded) as age,f.uploaded,mount,m.name,path','tx_mocfilemanager_files as f,tx_mocfilemanager_mounts as m','f.mount=m.uid AND f.type="0" AND m.pid in ('.$this->dbObj->cleanIntList($this->mountsPID).') AND '.$whereClause,'','age',5);
+	  
+	  $documentRoot = $this->cObj->stdWrap($this->conf["documentRoot"],$this->conf["documentRoot."]);
+	  while($row = $this->dbObj->sql_fetch_assoc($res)) {
+	    if(file_exists($this->clean_dir($documentRoot.$row["path"])."/".$row["file"])) {
+	    
+	      $file = $row["file"];
+	      $temp = t3lib_div::split_fileref ($row["file"]);        
+	      $extfile = $icons[$temp["fileext"]];
+	      if(empty($extfile))
+		$extfile="default.gif";          			
+	      // **** The Jan-Erik Way
+	      $typoconf["parameter"]= $this->showPage;
+	      
+	      $filename = $temp["file"];
+	      $reldir = $this->clean_dir($temp["path"]);
+	      $typoconf["additionalParams"]="&filename=$filename&dir=$reldir&task=download&mountpoint=".$row["mount"];
+	      $imgpath = $this->conf["useOwnIcons"] ? "typo3conf/ext/moc_filemanager/res/fileicons/" : "t3lib/gfx/fileicons/";
+	      $content .= "<img src=\"$imgpath$extfile\" width=\"16\" border=0 >".$this->cObj->typolink($temp["file"],$typoconf)." <span class='info'>".$this->cObj->calcAge($row["age"],$this->pi_getLL("ageformat"))."</span><br />\n";
+	    }
+	  }
+	  
+	  return $this->pi_wrapInBaseClass($content);
+	  
+	}
+	/* *****************************************************
+	 *
+	 *  FUNCTION clear_dir
+	 * 
+	 */
+	function clean_dir($thedir) {
+	  return ereg_replace("[\/\. ]*$","",$thedir);		// Removes all dots, slashes and spaces after a path...
+	}
+}
+
+
+
+if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/moc_filemanager/pi2/class.tx_mocfilemanager_pi2.php"])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/moc_filemanager/pi2/class.tx_mocfilemanager_pi2.php"]);
+}
+
+?>

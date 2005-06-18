@@ -1,0 +1,56 @@
+
+plugin.tx_mocfilemanager_pi1 {
+
+    # cat=plugin.Filemanager/File/; type=string; label= Documentroot: This specifies the documentroot. All folersspecification in Mounts is relative to this path! 
+    documentRoot = /
+
+    # cat=plugin.Filemanager//; type=boolean; label= Show as explorer: If set this will show the dirlist in the old familliar explorer fashion.
+    asExplorer = 1
+
+    # cat=plugin.Filemanager//; type=string; label= Allowed extension: Specification of which extensions is allowed for upload.
+    allowedExts = txt,xls,doc,pps,gif,jpg,htm,html
+
+    # cat=plugin.Filemanager//; type=string; label= Datetime format: The format string passed to strftime when displaying dates.
+    datetimeFormat = %c
+ 
+    # cat=plugin.Filemanager//; type=boolean; label= Max depth: Set how many dirs the extension can handle.
+    maxDepth = 3
+
+    # cat=plugin.Filemanager//; type=boolean; label= Use own icons: Tell the application to use its own icons instead of Native Typo3 icons.
+    useOwnIcons = 0
+
+# cat=plugin.Filemanager//; type=boolean; label= Use file comments: If enabled, then a textarea for giving comments about the file/directory is shown.
+    useDescriptions = 0
+
+    # cat=plugin.Filemanager/typo/; type=wrap; label= Mountwrap:Wrap for each every mountpoint in the dirmenu.
+    mountWrap = 
+
+    # cat=plugin.Filemanager//; type=boolean; label= Show parent directory: If enabled, an Up icon will be displayed when you are in a subdirectory in VIEW mode.  This allows you to go up and down the directory tree in VIEW mode without requiring the LISTDIRS display.
+    showParentDir = 1
+
+    # cat=plugin.Filemanager//; type=boolean; label= Parent dir style:  This parameter controls how the Up icon is displayed (showParentDir must be enabled).  If parentDirStyle=1, an Up directory icon is shown as the first icon of the directory/file list.  If parentDirStyle=0, the directory icon changes into the Up icon when you are in a sudirectory.
+    parentDirStyle = 0
+
+    # cat=plugin.Filemanager//; type=boolean; label= Disable mkdir: If set, then it will not be possible to create directories. Only upload and download of files possible.
+    disableMkdir = 0
+
+    # cat=plugin.Filemanager//; type=integer; label=Execute time limit: If set, then the script will try to set the max time limit on downloads to this value [sec]
+    timeLimit = 0
+    # cat=plugin.Filemanager//; type=boolean; label=Apache kill child: If set, the the apache_child_terminate function is called after a download has occured. This helps prevent PHP from consuming all of you memory on the system. Only allow if the function exists, and is enabled in php.ini!!
+   ApacheChildKill = 0
+
+#Constants
+}
+plugin.tx_mocfilemanager_pi2 {
+    # cat=plugin.Show files//; type=int+; label= Show file PID : If set this is the pageid that contains the show files plugin.
+    ShowFilesPID = 
+
+    # cat=plugin.Show files/File/; type=string; label= Documentroot: This specifies the documentroot. All folersspecification in Mounts is relative to this path! 
+    documentRoot = /
+
+    # cat=plugin.Show files//; type=int+; label= Newest files limit: Set how many files will be shown in the Newest files list.
+    limitNewest = 5
+
+    # cat=plugin.Show files//; type=boolean; label= Use own icons: Tell the application to use its own icons instead of Native Typo3 icons.
+    useOwnIcons = 0
+}

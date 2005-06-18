@@ -1,0 +1,121 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+  <ROOT>
+    <type>array</type>
+    <el>
+<!--
+//This is taken out temporarily, its currentl being implemented.
+      <field_templateObject>
+		<TCEforms>
+			<label>LLL:EXT:moc_filemanager/locallang_db.php:tt_content.pi1_flexform.select_template</label>
+			<displayCond>EXT:templavoila:LOADED:true</displayCond>
+			<config>
+				<type>select</type>
+				<items>
+					<n0>
+						<n0></n0>
+						<n1>0</n1>
+					</n0>
+				</items>
+				<foreign_table>tx_templavoila_tmplobj</foreign_table>
+				<foreign_table_where>
+					AND tx_templavoila_tmplobj.pid=###STORAGE_PID### 
+					AND tx_templavoila_tmplobj.datastructure="EXT:mininews/template_datastructure.xml" 
+					AND tx_templavoila_tmplobj.parent=0 
+					ORDER BY tx_templavoila_tmplobj.title
+				</foreign_table_where>
+				<size>1</size>
+				<minitems>0</minitems>
+				<maxitems>1</maxitems>
+			</config>
+		</TCEforms>
+      </field_templateObject>
+-->
+      <field_mode>
+        <TCEforms>
+          <label>LLL:EXT:moc_filemanager/locallang_db.php:tt_content.pi1_flexform.mode</label>
+	  <config>
+	    <type>select</type>
+	    <items>
+	      <n0>
+	        <n0></n0>
+		<n1>0</n1>
+	      </n0>
+	      <n1>
+	        <n0>View</n0>
+		<n1>VIEW</n1>
+	      </n1>
+	      <n2>
+	         <n0>Directory browser</n0>
+		 <n1>LISTDIRS</n1>
+	      </n2>
+	      <n3>
+	         <n0>Upload only</n0>
+		 <n1>UPLOAD_ONLY</n1>
+	      </n3>
+	     </items>
+	     <size>1</size>
+	     <minitems>1</minitems>
+	     <maxitems>1</maxitems>
+	  </config>
+        </TCEforms>
+      </field_mode>
+      <field_selectfrom>
+        <TCEforms>
+          <label>LLL:EXT:moc_filemanager/locallang_db.php:tt_content.pi1_flexform.select_from</label>
+	  <config>
+	   <type>select</type>
+	   <items>
+	     <n0>
+	      <n0></n0>
+	      <n1></n1>	      
+	     </n0>
+	     <n1>
+	      <n0>Choose manually</n0>
+	      <n1>choose</n1>
+	     </n1>
+	     <n2>
+	      <n0>piVars</n0>
+	      <n1>pivars</n1>
+	     </n2>
+	     <n3>
+	       <n0>This page</n0>
+	       <n1>thispage</n1>
+	     </n3>
+	     <n4>
+	       <n0>Pages (startingpoint)</n0>
+	       <n1>pages</n1>
+	     </n4>
+	    </items>
+	    <size>1</size>
+	    <minitems>1</minitems>
+	    <maxitems>1</maxitems>
+         </config>
+       </TCEforms>
+     </field_selectfrom>
+     <field_from>
+      <TCEforms>
+        <label>LLL:EXT:moc_filemanager/locallang_db.php:tt_content.pi1_flexform.mounts</label>
+	<displayCond>FIELD:field_selectfrom:=:choose</displayCond>
+	<config>
+	 <type>group</type>
+	 <internal_type>db</internal_type>
+	 <allowed>tx_mocfilemanager_mounts</allowed>
+	 <size>3</size>
+	 <maxitems>100</maxitems>
+	</config>
+      </TCEforms>
+     </field_from>
+    </el>
+  </ROOT>
+</T3DataStructure>
+
+
+
+
+
+
+
+

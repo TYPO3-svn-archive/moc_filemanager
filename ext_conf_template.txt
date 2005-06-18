@@ -1,0 +1,4 @@
+  # cat=basic; type=string; label=The documentroot. All mountpoint paths will be relative to this one. This is only used of AutoDirCreation is set, and *must* be set to the same value in the constants section! Remember to clear all Temp cache when this value is changed!
+  SuperRoot = 
+  # cat=basic; type=boolean; label=Automatically create directires. If set, directories on filesystem is automagically created when a mountpoint is created or updated. Remember to clear all Temp cache when this value is changed!
+  AutoDirCreation = 0

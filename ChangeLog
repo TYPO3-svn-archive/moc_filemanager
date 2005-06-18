@@ -1,0 +1,2 @@
+17 Aug 2004	Jan-Erik <jer@moccompany.com>
+	Changed fpassthru to a look writing out 4096 bytes at a time. Otherwise the script load the whole file into memory! Bad with large files.
